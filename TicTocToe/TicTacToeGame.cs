@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Net;
 using System.Threading.Channels;
 
 namespace TicTocToe
@@ -48,6 +49,17 @@ namespace TicTocToe
             }
         }
 
+        public static char getComputerLetter(char playerLetter)
+        {
+            if (playerLetter == 'X')
+            {
+                return 'O';
+            }
+            else
+            {
+                return 'X';
+            }
+        }
         public static void UC3_showBoard(char[] positions)
         {
             Console.WriteLine("*** Board postions ***");
@@ -58,19 +70,38 @@ namespace TicTocToe
             Console.WriteLine(positions[7] + "|" + positions[8] + "|" + positions[9]);
         }
 
+        public static void UC4_makeAMove(char[] positions,char playerLetter)
+        {
+            while (true)
+            {
+                Console.Write("Make a move... Choose one from [1-9] : ");
+                try
+                {
+                    int move = Convert.ToInt32(Console.ReadLine());
+                    if (positions[move] == ' ')
+                    {
+                        positions[move] = playerLetter;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter valid one");
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter valid one");
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             char[] positions = UC1_createBoard();
             char playerLetter = UC2_getPlayerLetter();
-            char computerLetter;
-            if (playerLetter == 'X')
-            {
-                computerLetter = 'O';
-            }
-            else
-            {
-                computerLetter = 'X';
-            }
+            char computerLetter = getComputerLetter(playerLetter);
+            UC3_showBoard(positions);
+            UC4_makeAMove(positions,playerLetter);
             UC3_showBoard(positions);
         }
     }
