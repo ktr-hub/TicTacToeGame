@@ -7,13 +7,17 @@ namespace TicTocToe
 {
     class TicTacToeGame
     {
+        public const int HEAD = 0;
+        public const int TAIL = 1;
+        public enum Player { USER, COMPUTER };
+
         static void Main(string[] args)
         {
             char[] positions = UC1_createBoard();
-            char playerLetter = UC2_getPlayerLetter();
-            char computerLetter = getComputerLetter(playerLetter);
+            char userLetter = UC2_getUserLetter();
             UC3_showBoard(positions);
-            UC5_makeAMove(positions, playerLetter);
+            Player player = UC6_DetermineWhoPlaysFirst(); // Tails -> Computer; Heads -> User;
+            UC5_makeAMove(player, positions, userLetter);
             UC3_showBoard(positions);
         }
         public static char[] UC1_createBoard()
@@ -26,7 +30,7 @@ namespace TicTocToe
             return positions;
         }
 
-        public static char UC2_getPlayerLetter()
+        public static char UC2_getUserLetter()
         {
             while (true)
             {
@@ -58,17 +62,7 @@ namespace TicTocToe
             }
         }
 
-        public static char getComputerLetter(char playerLetter)
-        {
-            if (playerLetter == 'X')
-            {
-                return 'O';
-            }
-            else
-            {
-                return 'X';
-            }
-        }
+        
         public static void UC3_showBoard(char[] positions)
         {
             Console.WriteLine("*** Board postions ***");
@@ -79,14 +73,24 @@ namespace TicTocToe
             Console.WriteLine(positions[7] + "|" + positions[8] + "|" + positions[9]);
         }
 
-        public static void UC5_makeAMove(char[] positions, char playerLetter)
+        public static void UC5_makeAMove(Player player,char[] positions, char playerLetter)
         {
+            if (player.Equals(Player.COMPUTER))
+            {
+                playerLetter = getComputerLetter(playerLetter);
+            }
             while (true)
             {
                 Console.Write("Make a move... Choose one from [1-9] : ");
                 try
                 {
-                    int move = Convert.ToInt32(Console.ReadLine());
+                    int move = 1;
+
+                    if (player.Equals(Player.USER))
+                    {
+                        move = Convert.ToInt32(Console.ReadLine());
+                    }
+
                     if (positions[move] == ' ')
                     {
                         positions[move] = playerLetter;
@@ -104,5 +108,30 @@ namespace TicTocToe
             }
         }
 
+        public static char getComputerLetter(char playerLetter)
+        {
+            if (playerLetter == 'X')
+            {
+                return 'O';
+            }
+            else
+            {
+                return 'X';
+            }
+        }
+
+        public static Player UC6_DetermineWhoPlaysFirst()
+        {
+            Random random = new Random();
+            int toss = random.Next(0, 2);
+            if (toss == HEAD)
+            {
+                return Player.USER;
+            }
+            else
+            {
+                return Player.COMPUTER;
+            }
+        }
     }
 }
