@@ -7,6 +7,15 @@ namespace TicTocToe
 {
     class TicTacToeGame
     {
+        static void Main(string[] args)
+        {
+            char[] positions = UC1_createBoard();
+            char playerLetter = UC2_getPlayerLetter();
+            char computerLetter = getComputerLetter(playerLetter);
+            UC3_showBoard(positions);
+            UC5_makeAMove(positions, playerLetter);
+            UC3_showBoard(positions);
+        }
         public static char[] UC1_createBoard()
         {
             char[] positions = new char[10];
@@ -70,7 +79,7 @@ namespace TicTocToe
             Console.WriteLine(positions[7] + "|" + positions[8] + "|" + positions[9]);
         }
 
-        public static void UC4_makeAMove(char[] positions,char playerLetter)
+        public static void UC5_makeAMove(char[] positions, char playerLetter)
         {
             while (true)
             {
@@ -83,26 +92,17 @@ namespace TicTocToe
                         positions[move] = playerLetter;
                         break;
                     }
-                    else
+                    else if (move > 0 && move < 10)
                     {
-                        Console.WriteLine("Please enter valid one");
+                        Console.WriteLine("Place is occupied");
                     }
                 }
                 catch
                 {
-                    Console.WriteLine("Please enter valid one");
+                    Console.WriteLine("Please enter valid number");
                 }
             }
         }
 
-        static void Main(string[] args)
-        {
-            char[] positions = UC1_createBoard();
-            char playerLetter = UC2_getPlayerLetter();
-            char computerLetter = getComputerLetter(playerLetter);
-            UC3_showBoard(positions);
-            UC4_makeAMove(positions,playerLetter);
-            UC3_showBoard(positions);
-        }
     }
 }
